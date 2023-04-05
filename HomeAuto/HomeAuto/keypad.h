@@ -2,7 +2,17 @@
 #define keypad_H_
 
 /*Useful pin and port definitions*/
+#include <avr/eeprom.h>
+#include <util/delay.h>
 #include "LCD.h"
+#include "ADC.h"
+#include <string.h>
+#include <math.h>
+#include "motor.h"
+#include <stdlib.h>
+
+// initialize
+#define F_CPU 8000000UL
 
 
 /*Keypad configuration*/
@@ -50,12 +60,13 @@ uint8_t read_keypad(void)
 		case 8:
 		data = 1;
 		// LCD_String("*");
-		LCD_String("DC Motor");
-		// LCD_Cmd(0xC0);
+		DC_Motor();
 		break;
 		case 9:
 		data = 2;
 		LCD_String("*");
+		// encoder
+		encoder();
 		break;
 		case 10:
 		data = 3;
@@ -66,6 +77,8 @@ uint8_t read_keypad(void)
 		break;
 
 		case 12: // ON/C
+		LCD_Clear();
+		LCD_String("THE MATRIX!!");
 		// reset the password if safe is open
 		break;
 
@@ -87,5 +100,6 @@ uint8_t read_keypad(void)
 
 	return data;
 }
+
 
 #endif /* keypad_H_ */
